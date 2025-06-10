@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:56:12 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/06/10 15:38:05 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:40:59 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ typedef struct s_game
 
 // keyhandler.c
 int		keypress_handler(int key, t_game *game);
+
+// logic_utils.c
+void	move_player(t_game *game, int new_x, int new_y);
+int		check_win_condition(t_game *game);
 
 // move_player.c
 void	move_up(t_game *game);
