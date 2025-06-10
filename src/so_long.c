@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:56:12 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/06/10 15:38:52 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:29:25 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,18 @@ int	main(int ac, char **av)
 	if (!init_game(&game, av[1]))
 		error_exit("Error while initializing the game");
 	if (!validate_map(&game))
+	{
+		clean_game(&game);
 		error_exit("Invalid map");
+	}
 	if (!load_images(&game))
+	{
+		clean_game(&game);
 		error_exit("Failed to load images");
+	}
 	render_map(&game);
 	mlx_key_hook(game.win, keypress_handler, &game);
+	mlx_hook(game.win, 17, 0, close_game, &game);
+	mlx_loop(game.mlx);
+	return (0);
 }

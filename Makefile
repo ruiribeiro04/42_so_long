@@ -6,7 +6,7 @@
 #    By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/08 10:23:10 by ruiferna          #+#    #+#              #
-#    Updated: 2025/06/10 14:08:30 by ruiferna         ###   ########.fr        #
+#    Updated: 2025/06/10 20:17:49 by ruiferna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,25 +22,16 @@ LIBS_DIR = libs
 LIBFT_DIR = $(LIBS_DIR)/libft
 MLX_DIR = $(LIBS_DIR)/minilibx-linux
 
-# SRCS = $(SRC_DIR)/so_long.c \
-#        $(SRC_DIR)/map_parser.c \
-#        $(SRC_DIR)/map_validation.c \
-#        $(SRC_DIR)/game_init.c \
-#        $(SRC_DIR)/game_logic.c \
-#        $(SRC_DIR)/graphics.c \
-#        $(SRC_DIR)/player_movement.c \
-#        $(SRC_DIR)/error_handling.c \
-#        $(SRC_DIR)/utils.c
-
-SRCS = $(SRC_DIR)/so_long.c
-#        $(SRC_DIR)/map_parser.c \
-#        $(SRC_DIR)/map_validation.c \
-#        $(SRC_DIR)/game_init.c \
-#        $(SRC_DIR)/game_logic.c \
-#        $(SRC_DIR)/graphics.c \
-#        $(SRC_DIR)/player_movement.c \
-#        $(SRC_DIR)/error_handling.c \
-#        $(SRC_DIR)/utils.c
+SRCS = $(SRC_DIR)/so_long.c \
+       $(SRC_DIR)/error_handler.c \
+       $(SRC_DIR)/game_utils.c \
+       $(SRC_DIR)/initialize_game.c \
+       $(SRC_DIR)/keyhandler.c \
+       $(SRC_DIR)/logic_utils.c \
+       $(SRC_DIR)/map_validator_utils.c \
+       $(SRC_DIR)/map_validator.c \
+       $(SRC_DIR)/move_player.c \
+       $(SRC_DIR)/rendering.c
 
 ALL_SRCS = $(SRCS)
 OBJS = $(ALL_SRCS:.c=.o)
@@ -109,6 +100,7 @@ fclean: clean
 	@rm -f $(NAME)
 	@rm -rf $(LIBFT_DIR)
 	@rm -rf $(MLX_DIR)
+	@rm -rf $(LIBS_DIR)
 
 re: fclean all
 

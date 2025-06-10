@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:37:53 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/06/10 16:39:17 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:18:47 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	move_player(t_game *game, int new_x, int new_y)
 	game->player_y = new_y;
 	game->map[game->player_y][game->player_x] = PLAYER;
 	game->moves++;
-	print_moves(game);
+	ft_printf("Moves: %d\n", game->moves);
 	render_map(game);
 }
 
