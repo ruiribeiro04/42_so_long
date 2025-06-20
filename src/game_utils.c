@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:51:24 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/06/10 18:21:17 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/06/13 07:51:45 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,34 @@ int	count_lines(char *filename)
 	if (fd < 0)
 		return (0);
 	count = 0;
-	while ((line = get_next_line(fd)) != NULL)
+	while (1)
 	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
 		count++;
 		free(line);
 	}
 	close(fd);
 	return (count);
+}
+
+int	is_directory(const char *path)
+{
+	int		fd;
+	char	buf;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	if (read(fd, &buf, 1) < 0)
+	{
+		if (errno == EISDIR)
+		{
+			close(fd);
+			return (1);
+		}
+	}
+	close(fd);
+	return (0);
 }

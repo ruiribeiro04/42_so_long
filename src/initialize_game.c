@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:49:36 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/06/10 20:07:59 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/06/13 07:39:05 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int	load_images(t_game *game)
 			&img_width, &img_height);
 	game->img_player = mlx_xpm_file_to_image(game->mlx, "textures/player.xpm",
 			&img_width, &img_height);
-	if (!game->img_wall || !game->img_empty || !game->img_collectible ||
-		!game->img_exit || !game->img_player)
+	if (!game->img_wall || !game->img_empty || !game->img_collectible
+		|| !game->img_exit || !game->img_player)
 		return (0);
 	return (1);
 }

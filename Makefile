@@ -6,7 +6,7 @@
 #    By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/08 10:23:10 by ruiferna          #+#    #+#              #
-#    Updated: 2025/06/10 20:17:49 by ruiferna         ###   ########.fr        #
+#    Updated: 2025/06/20 12:29:22 by ruiferna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ MLX_DIR = $(LIBS_DIR)/minilibx-linux
 
 SRCS = $(SRC_DIR)/so_long.c \
        $(SRC_DIR)/error_handler.c \
+	   $(SRC_DIR)/flood_fill_utils.c \
        $(SRC_DIR)/game_utils.c \
        $(SRC_DIR)/initialize_game.c \
        $(SRC_DIR)/keyhandler.c \

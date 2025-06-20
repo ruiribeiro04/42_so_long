@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:45:46 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/06/10 18:14:34 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/06/13 07:53:00 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error_exit(char *message)
 {
-	ft_printf("Error: %s\n", message);
+	ft_printf("Error:\n%s\n", message);
 	exit(1);
 }
 

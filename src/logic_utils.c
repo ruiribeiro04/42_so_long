@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:37:53 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/06/10 18:18:47 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/06/20 12:26:21 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	move_player(t_game *game, int new_x, int new_y)
 {
-	if (new_x < 0 || new_x >= game->map_width || new_y < 0 ||
-		new_y >= game->map_height)
+	if (new_x < 0 || new_x >= game->map_width || new_y < 0
+		|| new_y >= game->map_height)
 		return ;
 	if (game->map[new_y][new_x] == WALL)
 		return ;

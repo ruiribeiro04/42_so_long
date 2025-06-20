@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 18:11:08 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/06/10 18:11:31 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/06/13 07:38:44 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	render_tile(t_game *game, int x, int y, char tile)
 		img = game->img_player;
 	else
 		img = game->img_empty;
-	mlx_put_image_to_window(game->mlx, game->win, img, 
+	mlx_put_image_to_window(game->mlx, game->win, img,
 		x * TILE_SIZE, y * TILE_SIZE);
 }
 

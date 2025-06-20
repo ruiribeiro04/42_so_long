@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:56:12 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/06/10 18:21:10 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/06/20 12:28:38 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <errno.h>
 
 # define TILE_SIZE 64
 # define ESC_KEY 65307
@@ -63,6 +64,7 @@ void	clean_game(t_game *game);
 // game_utils.c
 int		close_game(t_game *game);
 int		count_lines(char *filename);
+int		is_directory(const char *path);
 
 // initialize_game.c
 int		init_game(t_game *game, char *map_file);
@@ -78,10 +80,16 @@ int		check_win_condition(t_game *game);
 
 // map_validator.c
 int		check_path_validity(t_game *game);
+int		check_collectibles_reachable(t_game *game);
+int		check_exit_reachable(t_game *game);
 char	**create_map_copy(t_game *game);
 void	find_player_position(t_game *game, int *x, int *y);
-void	flood_fill(char **map, int x, int y, t_game *game);
-int		validate_accessibility(char **map_copy, t_game *game);
+
+// flood_fill_utils.c
+void	flood_fill_collectibles(char **map, int x, int y, t_game *game);
+void	flood_fill_exit(char **map, int x, int y, t_game *game);
+int		validate_collectibles_access(char **map_copy, t_game *game);
+int		validate_exit_access(char **map_copy, t_game *game);
 
 // map_validator_utils.c
 int		validate_map(t_game *game);
