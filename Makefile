@@ -6,7 +6,7 @@
 #    By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/08 10:23:10 by ruiferna          #+#    #+#              #
-#    Updated: 2025/06/20 12:29:22 by ruiferna         ###   ########.fr        #
+#    Updated: 2025/07/22 12:41:21 by ruiferna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,87 +21,98 @@ INC_DIR = includes
 LIBS_DIR = libs
 LIBFT_DIR = $(LIBS_DIR)/libft
 MLX_DIR = $(LIBS_DIR)/minilibx-linux
+OBJS_DIR = objs
 
 SRCS = $(SRC_DIR)/so_long.c \
-       $(SRC_DIR)/error_handler.c \
-	   $(SRC_DIR)/flood_fill_utils.c \
-       $(SRC_DIR)/game_utils.c \
-       $(SRC_DIR)/initialize_game.c \
-       $(SRC_DIR)/keyhandler.c \
-       $(SRC_DIR)/logic_utils.c \
-       $(SRC_DIR)/map_validator_utils.c \
-       $(SRC_DIR)/map_validator.c \
-       $(SRC_DIR)/move_player.c \
-       $(SRC_DIR)/rendering.c
+       $(SRC_DIR)/player_movement.c \
+       $(SRC_DIR)/player_input.c \
+       $(SRC_DIR)/map_validation.c \
+       $(SRC_DIR)/map_pathfinding.c \
+       $(SRC_DIR)/map_parser.c \
+       $(SRC_DIR)/game_rendering.c \
+       $(SRC_DIR)/game_init.c \
+       $(SRC_DIR)/game_cleanup.c \
+       $(SRC_DIR)/file_utils.c
 
 ALL_SRCS = $(SRCS)
-OBJS = $(ALL_SRCS:.c=.o)
+OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(ALL_SRCS:.c=.o)))
 
 LIBFT = $(LIBFT_DIR)/libft.a
 MLX = $(MLX_DIR)/libmlx.a
 LIBS = -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 
-LIBFT_URL = --branch complete https://github.com/ruiribeiro04/42_libft
-MLX_URL = https://cdn.intra.42.fr/document/document/32345/minilibx-linux.tgz
+MLX_ARCHIVE = minilibx-linux.tgz
 
-all: $(LIBS_DIR) $(LIBFT_DIR) $(MLX_DIR) $(LIBFT) $(MLX) $(NAME)
+RED=\033[0;31m
+GREEN=\033[0;32m
+YELLOW=\033[0;33m
+RESET=\033[0m
 
-$(NAME): $(OBJS)
-	@echo "Linking $(NAME)..."
-	$(CC) $(OBJS) $(LIBS) -o $(NAME)
-	@echo "$(NAME) compiled successfully!"
+all: $(LIBFT) $(MLX) $(OBJS_DIR) $(NAME)
 
-%.o: %.c
-	@echo "Compiling $<..."
+$(OBJS_DIR):
+	@if [ ! -d "$(OBJS_DIR)" ]; then \
+		echo "$(YELLOW)Creating objs directory...$(RESET)"; \
+		mkdir $(OBJS_DIR); \
+	fi
+
+$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJS_DIR)
+	@echo "$(YELLOW)Compiling $<...$(RESET)"
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(LIBFT): $(LIBFT_DIR)
-	@echo "Compiling libft..."
+$(NAME): $(OBJS)
+	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
+	$(CC) $(OBJS) $(LIBS) -o $(NAME)
+	@echo "$(GREEN)$(NAME) compiled successfully!$(RESET)"
+
+$(LIBFT):
+	@echo "$(YELLOW)Compiling libft...$(RESET)"
 	@make -C $(LIBFT_DIR)
 
-$(LIBS_DIR):
-	@if [ ! -d "$(LIBS_DIR)" ]; then \
-		echo "Creating libs directory..."; \
-		mkdir $(LIBS_DIR); \
-	fi
-
-$(LIBFT_DIR): $(LIBS_DIR)
-	@if [ ! -d "$(LIBFT_DIR)" ]; then \
-		echo "Cloning libft..."; \
-		git clone $(LIBFT_URL) $(LIBFT_DIR); \
-		echo "Libft cloned successfully!"; \
-	else \
-		echo "Libft already exists"; \
-	fi
-
-$(MLX_DIR): $(LIBS_DIR)
+$(MLX_DIR):
 	@if [ ! -d "$(MLX_DIR)" ]; then \
-		echo "Downloading and extracting MinilibX..."; \
-		wget -q $(MLX_URL) -O $(LIBS_DIR)/minilibx.tgz; \
-		tar -xzf $(LIBS_DIR)/minilibx.tgz -C $(LIBS_DIR); \
-		rm -f $(LIBS_DIR)/minilibx.tgz; \
-		echo "MinilibX downloaded and extracted!"; \
+		if [ ! -f "$(MLX_ARCHIVE)" ]; then \
+			echo "$(RED)Error: $(MLX_ARCHIVE) not found in project root!$(RESET)"; \
+			echo "$(RED)Please place $(MLX_ARCHIVE) in the same directory as Makefile$(RESET)"; \
+			exit 1; \
+		fi; \
+		echo "$(YELLOW)Extracting MinilibX from $(MLX_ARCHIVE)...$(RESET)"; \
+		tar -xzf $(MLX_ARCHIVE) -C $(LIBS_DIR); \
+		echo "$(GREEN)MinilibX extracted successfully!$(RESET)"; \
 	else \
-		echo "MinilibX already exists"; \
+		echo "$(YELLOW)MinilibX already exists$(RESET)"; \
 	fi
 
 $(MLX): $(MLX_DIR)
-	@echo "Compiling MinilibX..."
-	@make -C $(MLX_DIR)
+	@if [ ! -f "$(MLX)" ]; then \
+		echo "$(YELLOW)Compiling MinilibX...$(RESET)"; \
+		cd $(MLX_DIR) && ./configure; \
+		cd $(MLX_DIR) && make -f Makefile.gen libmlx.a 2>/dev/null || make -f makefile.gen libmlx.a 2>/dev/null || echo "$(GREEN)MinilibX library created!$(RESET)"; \
+	fi
 
 clean:
-	@echo "$(RED)Cleaning object files..."
-	@rm -f $(OBJS)
-	@make -C $(LIBFT_DIR) clean
-	@if [ -d $(LIBFT_DIR) ]; then make -C $(LIBFT_DIR) clean; fi
-	@if [ -d $(MLX_DIR) ]; then make -C $(MLX_DIR) clean; fi
+	@echo "$(RED)Cleaning object files...$(RESET)"
+	@if [ -d "$(OBJS_DIR)" ]; then \
+		rm -rf $(OBJS_DIR); \
+	fi
+	@if [ -f "$(LIBFT)" ]; then \
+		make -C $(LIBFT_DIR) clean; \
+	fi
+	@if [ -d $(MLX_DIR) ] && [ -f "$(MLX)" ]; then \
+		make -C $(MLX_DIR) clean; \
+	fi
 
 fclean: clean
-	@echo "$(RED)Cleaning everything...$(RESET)"
-	@rm -f $(NAME)
-	@rm -rf $(LIBFT_DIR)
-	@rm -rf $(MLX_DIR)
-	@rm -rf $(LIBS_DIR)
+	@echo "$(RED)Cleaning executables...$(RESET)"
+	@if [ -f "$(NAME)" ]; then \
+		rm -f $(NAME); \
+	fi
+	@if [ -f "$(LIBFT)" ]; then \
+		make -C $(LIBFT_DIR) fclean; \
+	fi
+	@if [ -d $(MLX_DIR) ]; then \
+		rm -rf $(MLX_DIR); \
+	fi
 
 re: fclean all
 

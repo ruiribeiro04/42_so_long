@@ -6,7 +6,7 @@
 /*   By: ruiferna <ruiferna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:56:12 by ruiferna          #+#    #+#             */
-/*   Updated: 2025/06/13 07:54:42 by ruiferna         ###   ########.fr       */
+/*   Updated: 2025/07/22 12:21:53 by ruiferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		error_exit("Usage: ./so_long <map_file.ber>");
-	if (is_directory(av[1]))
-		error_exit("Argument is a directory, not a map file");
+	if (!is_valid_extension(av[1]))
+		error_exit("Invalid file extension");
 	if (!init_game(&game, av[1]))
 		error_exit("Error while initializing the game");
 	if (!validate_map(&game))
